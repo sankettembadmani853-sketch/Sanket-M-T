@@ -1,0 +1,58 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // String array of size 10
+        String[] restaurants = new String[10];
+
+        // Enter number of restaurants
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        // Store restaurant names
+        for (int i = 0; i < n; i++) {
+            restaurants[i] = sc.nextLine();
+        }
+
+        // Display restaurant list
+        System.out.println("Available Restaurants:");
+        for (int i = 0; i < n; i++) {
+            System.out.println(restaurants[i]);
+        }
+
+        // Count total restaurants
+        System.out.println("Total Restaurants = " + n);
+
+        // Find longest restaurant name
+        String longest = restaurants[0];
+
+        for (int i = 1; i < n; i++) {
+            if (restaurants[i].length() > longest.length()) {
+                longest = restaurants[i];
+            }
+        }
+
+        System.out.println("Longest Name = " + longest);
+
+        // Search for restaurant
+        String search = sc.nextLine();
+        boolean found = false;
+
+        for (int i = 0; i < n; i++) {
+            if (restaurants[i].equalsIgnoreCase(search)) {
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("Restaurant Found");
+        } else {
+            System.out.println("Restaurant Not Found");
+        }
+
+        sc.close();
+    }
+}
