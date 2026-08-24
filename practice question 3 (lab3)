@@ -1,0 +1,103 @@
+import java.util.Scanner;
+
+public class Solution {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        StringBuilder inputBuilder = new StringBuilder();
+
+        while (sc.hasNextLine()) {
+            if (inputBuilder.length() > 0) {
+                inputBuilder.append("\n");
+            }
+            inputBuilder.append(sc.nextLine());
+        }
+
+        String input = inputBuilder.toString().trim();
+
+        String[] courses = new String[10];
+
+        String coursePart = input;
+        String searchKey = null;
+
+        // Separate courses and search key using semicolon
+        if (input.contains(";")) {
+            String[] parts = input.split(";", 2);
+            coursePart = parts[0].trim();
+
+            if (parts.length > 1) {
+                searchKey = parts[1].trim();
+
+                // Remove "Search:" if present
+                if (searchKey.startsWith("Search:")) {
+                    searchKey = searchKey.substring(7).trim();
+                }
+            }
+        }
+
+        // Store courses
+        String[] courseNames = coursePart.split(",");
+
+        int totalCourses = 0;
+
+        for (int i = 0; i < courseNames.length && i < 10; i++) {
+            String course = courseNames[i].trim();
+
+            if (course.length() > 0 && course.length() <= 50) {
+                courses[totalCourses] = course;
+                totalCourses++;
+            }
+        }
+
+        // Find longest course name
+        String longestName = "";
+
+        for (int i = 0; i < totalCourses; i++) {
+            if (courses[i].length() > longestName.length()) {
+                longestName = courses[i];
+            }
+        }
+
+        // If there is no search key
+        if (searchKey == null || searchKey.length() == 0) {
+
+            System.out.println("Total Courses = " + totalCourses
+                    + ", Longest Name = " + longestName);
+
+        } else {
+
+            boolean found = false;
+            boolean exactMatch = false;
+
+            for (int i = 0; i < totalCourses; i++) {
+
+                if (courses[i].equalsIgnoreCase(searchKey)) {
+                    found = true;
+
+                    if (courses[i].equals(searchKey)) {
+                        exactMatch = true;
+                    }
+
+                    break;
+                }
+            }
+
+            if (found) {
+
+                if (exactMatch) {
+                    System.out.println("Course Found");
+                } else {
+                    System.out.println(
+                            "Course Found (Case-Insensitive Search)"
+                    );
+                }
+
+            } else {
+                System.out.println("Course Not Found");
+            }
+        }
+
+        sc.close();
+    }
+}
