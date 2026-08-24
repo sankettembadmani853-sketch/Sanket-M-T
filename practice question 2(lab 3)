@@ -1,0 +1,52 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // Read through all test cases provided in standard input
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine().trim();
+            if (line.isEmpty()) continue;
+            
+            // Removing commas to easily split the string by spaces
+            String[] parts = line.replace(",", "").split("\\s+");
+            
+            // Ensure we have ID, Name, and 7 attendance days
+            if (parts.length < 9) continue;
+            
+            boolean invalidInput = false;
+            int presentDays = 0;
+            int absentDays = 0;
+            
+            // Attendance values start at index 2
+            for (int i = 2; i < 9; i++) {
+                int attendance = Integer.parseInt(parts[i]);
+                
+                if (attendance != 0 && attendance != 1) {
+                    invalidInput = true;
+                    break;
+                }
+                
+                if (attendance == 1) {
+                    presentDays++;
+                } else {
+                    absentDays++;
+                }
+            }
+            
+            if (invalidInput) {
+                System.out.println("Invalid Attendance Input");
+            } else {
+                double percentage = (presentDays / 7.0) * 100.0;
+                String eligibility = (percentage >= 75.0) ? "Eligible for Exam" : "Not Eligible for Exam";
+                
+                // Print the result formatted to 2 decimal places
+                System.out.printf("Attendance = %.2f%%, Absent Days = %d, %s\n", percentage, absentDays, eligibility);
+            }
+        }
+        
+        sc.close();
+    }
+}
